@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 0 0% 95%;
+  --foreground: 0 0% 0%;
+  --muted: 0 0% 96%;
+  --muted-foreground: 0 0% 45%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 0%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 0%;
+  --border: 0 0% 90%;
+  --input: 0 0% 90%;
+  --primary: 211 86% 40%;      /* LinkedIn blue #0A66C2 */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 150 95% 23%;    /* Trust green #057642 */
+  --secondary-foreground: 0 0% 100%;
+  --accent: 39 77% 58%;        /* Warm yellow #E7A33E */
+  --accent-foreground: 0 0% 0%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --ring: 211 86% 40%;         /* LinkedIn blue */
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: 240 10% 10%;
+  --foreground: 0 0% 95%;
+  --muted: 240 10% 15%;
+  --muted-foreground: 240 5% 65%;
+  --popover: 240 10% 10%;
+  --popover-foreground: 0 0% 95%;
+  --card: 240 10% 12%;
+  --card-foreground: 0 0% 95%;
+  --border: 240 10% 20%;
+  --input: 240 10% 20%;
+  --primary: 211 86% 40%;      /* LinkedIn blue #0A66C2 */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 150 95% 23%;    /* Trust green #057642 */
+  --secondary-foreground: 0 0% 100%;
+  --accent: 39 77% 58%;        /* Warm yellow #E7A33E */
+  --accent-foreground: 0 0% 0%;
+  --destructive: 0 84% 30%;
+  --destructive-foreground: 0 0% 95%;
+  --ring: 211 86% 40%;
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-[#F3F2EF] text-[#000000] font-sans antialiased;
+  }
+}
+
+@layer components {
+  .verified-badge {
+    @apply absolute -bottom-1 -right-1 bg-secondary text-white rounded-full w-6 h-6 flex items-center justify-center text-xs;
+  }
+}

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800px" height="800px" viewBox="0 0 800 800" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <!-- Background Circle -->
+        <circle fill="#F3F4F6" cx="400" cy="400" r="380"/>
+        
+        <!-- Cat Body -->
+        <g transform="translate(400, 400)">
+            <!-- Cat Head -->
+            <circle fill="#4B5563" cx="0" cy="-50" r="80"/>
+            
+            <!-- Cat Ears -->
+            <path d="M-40,-120 L-60,-180 L-20,-130 Z" fill="#4B5563"/>
+            <path d="M40,-120 L60,-180 L20,-130 Z" fill="#4B5563"/>
+            
+            <!-- Cat Eyes -->
+            <circle fill="#FFFFFF" cx="-25" cy="-70" r="15"/>
+            <circle fill="#FFFFFF" cx="25" cy="-70" r="15"/>
+            <circle fill="#1F2937" cx="-25" cy="-70" r="7"/>
+            <circle fill="#1F2937" cx="25" cy="-70" r="7"/>
+            
+            <!-- Cat Nose -->
+            <path d="M-5,-50 L5,-50 L0,-40 Z" fill="#FF9999"/>
+            
+            <!-- Cat Whiskers -->
+            <line x1="-40" y1="-45" x2="-80" y2="-40" stroke="#4B5563" stroke-width="2"/>
+            <line x1="-40" y1="-40" x2="-80" y2="-40" stroke="#4B5563" stroke-width="2"/>
+            <line x1="-40" y1="-35" x2="-80" y2="-40" stroke="#4B5563" stroke-width="2"/>
+            <line x1="40" y1="-45" x2="80" y2="-40" stroke="#4B5563" stroke-width="2"/>
+            <line x1="40" y1="-40" x2="80" y2="-40" stroke="#4B5563" stroke-width="2"/>
+            <line x1="40" y1="-35" x2="80" y2="-40" stroke="#4B5563" stroke-width="2"/>
+            
+            <!-- Cat Paws -->
+            <circle fill="#4B5563" cx="-60" cy="50" r="20"/>
+            <circle fill="#4B5563" cx="60" cy="50" r="20"/>
+            
+            <!-- 404 Sign Board -->
+            <rect x="-100" y="20" width="200" height="120" rx="10" fill="#FFFFFF" stroke="#4B5563" stroke-width="4"/>
+            <text font-family="Arial-BoldMT, Arial" font-size="60" font-weight="bold" fill="#1F2937" text-anchor="middle">
+                <tspan x="0" y="100">404</tspan>
+            </text>
+            
+            <!-- Sign Board Handle -->
+            <rect x="-10" y="140" width="20" height="40" fill="#4B5563"/>
+        </g>
+        
+        <!-- Decorative Elements -->
+        <g fill="#9CA3AF">
+            <circle cx="150" cy="150" r="8"/>
+            <circle cx="650" cy="150" r="8"/>
+            <circle cx="150" cy="650" r="8"/>
+            <circle cx="650" cy="650" r="8"/>
+        </g>
+    </g>
+</svg> 
