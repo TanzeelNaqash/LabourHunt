@@ -17,6 +17,7 @@ import ClientDashboardPage from "./pages/ClientDashboardPage";
 import WorkerDashboardPage from "./pages/WorkerDashboardPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
 import NotFound from "./pages/NotFound";
+import ServerError from "./pages/ServerError";
 import useAuthStore from './store/authStore';
 import RegisterForm from './components/RegisterForm';
 import LoginPage from "./pages/LoginPage";
@@ -38,7 +39,6 @@ const ProtectedRegisterForm = () => {
 };
 
 function Router() {
-  const { isAuthenticated } = useAuthStore();
   return (
     <Switch>
       <Route path="/" component={HomePage} />
@@ -72,6 +72,7 @@ function Router() {
       <Route path="/admin-forgot-password" component={AdminForgotPassword} />
       <Route path="/admin-register" component={AdminRegisterPage} />
       <Route path="/admin-login" component={AdminLoginPage} />
+      <Route path="/500" component={ServerError} />
       <Route component={NotFound} />
     </Switch>
   );

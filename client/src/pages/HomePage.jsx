@@ -9,7 +9,7 @@ import CallToAction from "@/components/home/CalltoAction";
 import AboutSection from "@/components/home/AboutSection";
 import { Helmet } from "react-helmet";
 import ChatboxMobile from "@/components/layout/ChatboxMobile";
-import CookiesPopup from '@/components/CookiesPopup';
+import PrivacyBanner from '@/components/PrivacyBanner';
 
 export default function HomePage() {
   return (
@@ -33,7 +33,7 @@ export default function HomePage() {
           <CallToAction />
         </main>
         <ChatboxMobile/>
-        <CookiesPopup />
+        <PrivacyBanner />
         <Footer />
       </div>
     </>

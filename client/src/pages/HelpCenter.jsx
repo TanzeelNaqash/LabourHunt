@@ -6,6 +6,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { Link } from "wouter";
 import ChatboxMobile from "@/components/layout/ChatboxMobile";
+import { Helmet } from 'react-helmet';
 
 const HelpCenter = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -208,6 +209,17 @@ Once posted, workers can view and submit proposals.`,
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Helmet>
+        <title>Help Center - Get Support & Find Answers | LabourHunt</title>
+        <meta name="description" content="Find answers to common questions about LabourHunt. Learn how to create accounts, manage payments, find workers, and get support for your projects." />
+        <meta name="keywords" content="help center, support, FAQ, account setup, payment methods, find workers, project management, labour hunt" />
+        <meta property="og:title" content="Help Center - Get Support & Find Answers | LabourHunt" />
+        <meta property="og:description" content="Find answers to common questions about LabourHunt. Learn how to create accounts, manage payments, find workers, and get support for your projects." />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="Help Center - Get Support & Find Answers | LabourHunt" />
+        <meta name="twitter:description" content="Find answers to common questions about LabourHunt. Learn how to create accounts, manage payments, find workers, and get support for your projects." />
+      </Helmet>
       <Header />
       <div className="py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
