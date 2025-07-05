@@ -1,6 +1,8 @@
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import ChatboxMobile from "@/components/layout/ChatboxMobile";
+import { Helmet } from 'react-helmet';
+
 const Privacy = () => {
   const sections = [
     {
@@ -74,6 +76,17 @@ We do not sell your personal information to third parties.`
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Helmet>
+        <title>Privacy Policy | LabourHunt</title>
+        <meta name="description" content="Learn how LabourHunt collects, uses, and protects your personal information. Our privacy policy covers data security, your rights, cookies, and more." />
+        <meta name="keywords" content="privacy policy, data protection, personal information, cookies, data security, GDPR, user rights, labour hunt" />
+        <meta property="og:title" content="Privacy Policy | LabourHunt" />
+        <meta property="og:description" content="Learn how LabourHunt collects, uses, and protects your personal information. Our privacy policy covers data security, your rights, cookies, and more." />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="Privacy Policy | LabourHunt" />
+        <meta name="twitter:description" content="Learn how LabourHunt collects, uses, and protects your personal information. Our privacy policy covers data security, your rights, cookies, and more." />
+      </Helmet>
       <Header />
       <div className="py-12">
         <div className="container mx-auto px-4">

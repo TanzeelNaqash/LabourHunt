@@ -1,6 +1,8 @@
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import ChatboxMobile from "@/components/layout/ChatboxMobile";
+import { Helmet } from 'react-helmet';
+
 const Terms = () => {
   const sections = [
     {
@@ -55,6 +57,17 @@ const Terms = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Helmet>
+        <title>Terms and Conditions | LabourHunt</title>
+        <meta name="description" content="Read LabourHunt's terms and conditions covering account registration, user responsibilities, payment terms, intellectual property, and dispute resolution." />
+        <meta name="keywords" content="terms and conditions, user agreement, service terms, account registration, payment terms, intellectual property, dispute resolution, labour hunt" />
+        <meta property="og:title" content="Terms and Conditions | LabourHunt" />
+        <meta property="og:description" content="Read LabourHunt's terms and conditions covering account registration, user responsibilities, payment terms, intellectual property, and dispute resolution." />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="Terms and Conditions | LabourHunt" />
+        <meta name="twitter:description" content="Read LabourHunt's terms and conditions covering account registration, user responsibilities, payment terms, intellectual property, and dispute resolution." />
+      </Helmet>
       <Header />
       <div className="py-12">
         <div className="container mx-auto px-4">

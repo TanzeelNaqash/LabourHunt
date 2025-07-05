@@ -4,6 +4,8 @@ import { cn } from "@/lib/utils";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import ChatboxMobile from "@/components/layout/ChatboxMobile";
+import { Helmet } from 'react-helmet';
+
 const FAQ = () => {
   const [openIndex, setOpenIndex] = useState(null);
 
@@ -48,6 +50,17 @@ const FAQ = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Helmet>
+        <title>FAQ - Frequently Asked Questions | LabourHunt</title>
+        <meta name="description" content="Find answers to frequently asked questions about LabourHunt. Learn how to find workers, become a worker, payment processes, security, and more." />
+        <meta name="keywords" content="FAQ, frequently asked questions, labour hunt, workers, hiring, payment, security, verification" />
+        <meta property="og:title" content="FAQ - Frequently Asked Questions | LabourHunt" />
+        <meta property="og:description" content="Find answers to frequently asked questions about LabourHunt. Learn how to find workers, become a worker, payment processes, security, and more." />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="FAQ - Frequently Asked Questions | LabourHunt" />
+        <meta name="twitter:description" content="Find answers to frequently asked questions about LabourHunt. Learn how to find workers, become a worker, payment processes, security, and more." />
+      </Helmet>
       <Header />
       <div className="py-12">
         <div className="container mx-auto px-4">

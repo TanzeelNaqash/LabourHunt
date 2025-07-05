@@ -4,6 +4,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { useState } from "react";
 import ChatboxMobile from "@/components/layout/ChatboxMobile";
+import { Helmet } from 'react-helmet';
 
 const Pricing = () => {
   const [selectedPlan, setSelectedPlan] = useState("Gold"); // Default selected plan
@@ -91,6 +92,17 @@ const Pricing = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Helmet>
+        <title>Pricing Plans - Simple & Transparent | LabourHunt</title>
+        <meta name="description" content="Choose from our simple, transparent pricing plans: Free, Gold (₹499), Platinum (₹999), and Enterprise (₹1999). Find the perfect plan for your needs with features like profile listings, job applications, and priority support." />
+        <meta name="keywords" content="pricing, plans, subscription, labour hunt, workers, hiring, free trial, gold plan, platinum plan, enterprise plan" />
+        <meta property="og:title" content="Pricing Plans - Simple & Transparent | LabourHunt" />
+        <meta property="og:description" content="Choose from our simple, transparent pricing plans: Free, Gold (₹499), Platinum (₹999), and Enterprise (₹1999). Find the perfect plan for your needs with features like profile listings, job applications, and priority support." />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="Pricing Plans - Simple & Transparent | LabourHunt" />
+        <meta name="twitter:description" content="Choose from our simple, transparent pricing plans: Free, Gold (₹499), Platinum (₹999), and Enterprise (₹1999). Find the perfect plan for your needs with features like profile listings, job applications, and priority support." />
+      </Helmet>
       <Header />
       <div className="py-12">
         <div className="container mx-auto px-4">
