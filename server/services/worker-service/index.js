@@ -13,7 +13,11 @@ app.set('trust proxy', 1);
 // cookie parser
 app.use(cookieParser());
 
-
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 // Parse JSON for all /api/v1/workers routes (needed for /check-phone, etc.)
 app.use('/api/v1/workers', express.json({ limit: '50mb' }));

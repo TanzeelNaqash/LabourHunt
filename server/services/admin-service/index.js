@@ -15,7 +15,6 @@ const app = express();
 
 app.set('trust proxy', 1);
 
-
 // cookie parser
 app.use(cookieParser());
 
@@ -134,8 +133,14 @@ app.use('/api/v1/chat', chatRoutes);
 console.log('Chat routes registered successfully');
 
 // Connect to MongoDB and start server
-const PORT = process.env.ADMIN_SERVICE_PORT || 3003;
+const PORT = process.env.ADMIN_SERVICE_PORT;
 const MONGO_URI = process.env.ADMIN_SERVICE_DB_URI ;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
