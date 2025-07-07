@@ -5,8 +5,8 @@ import { useDropzone } from "react-dropzone";
 import { useLocation } from "wouter";
 import Select from 'react-select';
 import { Country, State } from 'country-state-city';
-import Header from "@/components/layout/header";
-import Footer from "@/components/layout/footer";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 import {
   User,
   LogOut,

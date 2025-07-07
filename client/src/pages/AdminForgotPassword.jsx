@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet";
-import Header from "@/components/layout/header";
-import Footer from "@/components/layout/footer";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 import { useState, useRef, useEffect } from "react";
 import useAuthStore from "@/store/authStore";
 import { useToast } from "@/hooks/UseToast";

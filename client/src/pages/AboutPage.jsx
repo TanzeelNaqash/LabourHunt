@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet";
-import Header from "@/components/layout/header";
-import Footer from "@/components/layout/footer";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 import { CheckCircle, ShieldX, Handshake, Star } from "lucide-react";
 import ChatboxMobile from "@/components/layout/ChatboxMobile";
 
