@@ -20,18 +20,6 @@ app.use(express.json({ limit: '50mb' }));
 // cookie parser
 app.use(cookieParser());
 
-// cloudinary
-console.log(process.env.cloudapikey)
-cloudinary.config({
-  cloud_name: process.env.cloudname,
-  api_key: process.env.cloudapikey,
-  api_secret: process.env.cloudsecretkey
-});
-console.log('Cloudinary config:', {
-  cloud_name: process.env.cloudname,
-  api_key: process.env.cloudapikey,
-  api_secret: process.env.cloudsecretkey
-});
 
 app.use('/api/v1/users', (req, res, next) => {
   console.log('User-service middleware:', req.method, req.path, req.headers['content-type']);

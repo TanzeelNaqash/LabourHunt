@@ -19,26 +19,6 @@ app.set('trust proxy', 1);
 // cookie parser
 app.use(cookieParser());
 
-// service urls
-console.log(process.env.USER_SERVICE_URL)
-console.log(process.env.WORKER_SERVICE_URL)
-
-// smtp 
-console.log({
-  SMTP_HOST: process.env.SMTP_HOST,
-  SMTP_PORT: process.env.SMTP_PORT,
-  SMTP_USER: process.env.SMTP_USER,
-  SMTP_PASS: process.env.SMTP_PASS,
-  SMTP_FROM: process.env.SMTP_FROM,
-});
-// cloudinary
-console.log(process.env.cloudapikey)
-cloudinary.config({
-  cloud_name: process.env.cloudname,
-  api_key: process.env.cloudapikey,
-  api_secret: process.env.cloudsecretkey
-});
-
 // Parse JSON for all 
 app.use('/api/v1/admin', express.json({ limit: '50mb' }));
 
