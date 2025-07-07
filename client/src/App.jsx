@@ -4,7 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import HomePage from "./pages/HomePage";
 import AuthPage from "./pages/AuthPage";
 import AboutPage from "./pages/AboutPage";
-import HowItWorksPage from "./pages/HowItWorksPage";
+import HowItWorksPage from "./pages/HowitWorksPage";
 import Pricing from "./pages/Pricing";
 import Contact from "./pages/Contact";
 import Terms from "./pages/Terms";
