@@ -13,6 +13,9 @@ import './models/userModel.js';
 import chatRoutes from './routes/chatRoutes.js';
 const app = express();
 
+app.set('trust proxy', 1);
+
+
 // cookie parser
 app.use(cookieParser());
 

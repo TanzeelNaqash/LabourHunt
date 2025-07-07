@@ -30,6 +30,18 @@ if (process.env.NODE_ENV !== 'production') {
 
 const app = express();
 
+app.set('trust proxy', 1);
+
+
+app.get('/', (req, res) => {
+  res.status(200).json({
+    message: 'Welcome to LabourHunt API Gateway',
+    status: 'running',
+    timestamp: new Date().toISOString()
+  });
+});
+
+
 // Security middleware
 app.use(helmet());
 app.use(cors());

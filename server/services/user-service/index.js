@@ -9,7 +9,13 @@ import authRoutes from './routes/authRoutes.js';
 
 dotenv.config();
 const app = express();
+
+app.set('trust proxy', 1);
+
 app.use(express.json({ limit: '50mb' }));
+
+
+
 
 // cookie parser
 app.use(cookieParser());
