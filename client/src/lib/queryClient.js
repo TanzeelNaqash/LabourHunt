@@ -1,20 +1,20 @@
 import { QueryClient } from "@tanstack/react-query";
 
 const API_VERSION = "v1";
+const BASE_URL = import.meta.env.VITE_GATEWAY_URL || ""; // Fallback to "" for dev with proxy
 
 // Helper to construct versioned API URLs
 function getVersionedUrl(path) {
   // Skip versioning for auth routes and already versioned paths
-  if (path.startsWith('/api/auth') || path.includes('/api/v')) {
-    return path;
+  if (path.startsWith('/api/auth') || path.includes(`/api/${API_VERSION}`)) {
+    return `${BASE_URL}${path}`;
   }
 
-  // Add version to API paths
   if (path.startsWith('/api/')) {
-    return path.replace('/api/', `/api/${API_VERSION}/`);
+    return `${BASE_URL}${path.replace('/api/', `/api/${API_VERSION}/`)}`;
   }
 
-  return path;
+  return `${BASE_URL}${path}`;
 }
 
 async function throwIfResNotOk(res) {
@@ -26,6 +26,7 @@ async function throwIfResNotOk(res) {
 
 export async function apiRequest(method, url, data) {
   const versionedUrl = getVersionedUrl(url);
+
   const res = await fetch(versionedUrl, {
     method,
     headers: data ? { "Content-Type": "application/json" } : {},
@@ -62,7 +63,7 @@ export const queryClient = new QueryClient({
       queryFn: getQueryFn({ on401: "throw" }),
       refetchInterval: false,
       refetchOnWindowFocus: false,
-      staleTime: 5 * 60 * 1000, // 5 minutes instead of Infinity
+      staleTime: 5 * 60 * 1000, // 5 minutes
       retry: false,
     },
     mutations: {
