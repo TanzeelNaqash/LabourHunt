@@ -44,7 +44,7 @@ app.get('/', (req, res) => {
 
 // Security middleware
 app.use(helmet());
-app.use(cors());
+
 
 app.use(cors({
   credentials: true,
