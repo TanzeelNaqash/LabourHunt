@@ -28,6 +28,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import AdminLoginPage from './pages/AdminLoginPage';
 import AdminRegisterPage from './pages/AdminRegisterPage';
 import AdminForgotPassword from './pages/AdminForgotPassword';
+import { useEffect } from "react";
 
 // Protected RegisterForm Route Component
 const ProtectedRegisterForm = () => {
@@ -79,6 +80,11 @@ function Router() {
 }
 
 function App() {
+  
+useEffect(()=>{
+  console.log('Gateway URL:', import.meta.env.VITE_GATEWAY_URL);
+},[])
+
   return (
     <TooltipProvider>
       <Toaster />
