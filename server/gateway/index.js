@@ -46,6 +46,10 @@ app.get('/', (req, res) => {
 app.use(helmet());
 app.use(cors());
 
+app.use(cors({
+  credentials: true,
+  origin: process.env.CLIENT_URL,
+}));
 
 // Rate limiting
 const limiter = rateLimit({
@@ -138,7 +142,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Something broke!' });
 });
 
-const PORT = process.env.GATEWAY_PORT || 3000;
+const PORT = process.env.GATEWAY_PORT;
 app.listen(PORT, () => {
   logger.info(`API Gateway running on port ${PORT}`);
 });

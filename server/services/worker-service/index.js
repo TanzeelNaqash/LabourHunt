@@ -42,9 +42,7 @@ app.use(express.json({ limit: '50mb' }));
 // CORS
 app.use(cors({
   credentials: true,
-  origin: (origin, callback) => {
-    callback(null, true); // Allow all origins
-  }
+  origin: process.env.CLIENT_URL,
 }));
 
 // Health check

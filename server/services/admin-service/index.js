@@ -46,11 +46,8 @@ app.use(express.json({ limit: '50mb' }));
 // CORS
 app.use(cors({
   credentials: true,
-  origin: (origin, callback) => {
-    callback(null, true); // Allow all origins
-  }
+  origin: process.env.CLIENT_URL,
 }));
-
 // Debug middleware to log all requests
 app.use((req, res, next) => {
   console.log(`Admin Service: ${req.method} ${req.path}`);

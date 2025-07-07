@@ -43,9 +43,7 @@ app.use('/api/v1/users', (req, res, next) => {
 // CORS
 app.use(cors({
   credentials: true,
-  origin: (origin, callback) => {
-    callback(null, true); // Allow all origins
-  }
+  origin: process.env.CLIENT_URL,
 }));
 
 // Error handling middleware
@@ -83,7 +81,7 @@ app.use((err, req, res, next) => {
 app.get('/', (req, res) => res.send('User Service Running!'));
 
 // Connect to MongoDB and start server
-const PORT = process.env.USER_SERVICE_PORT || 3004;
+const PORT = process.env.USER_SERVICE_PORT ;
 const MONGO_URI = process.env.USER_SERVICE_DB_URI;
 
 mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
