@@ -58,9 +58,9 @@ app.use(limiter);
 app.use(morgan('combined'));
 
 // Service URLs
-const ADMIN_SERVICE_URL = process.env.ADMIN_SERVICE_URL || 'http://localhost:3003';
-const USER_SERVICE_URL = process.env.USER_SERVICE_URL || 'http://localhost:3004';
-const WORKER_SERVICE_URL = process.env.WORKER_SERVICE_URL || 'http://localhost:3005';
+const ADMIN_SERVICE_URL = process.env.ADMIN_SERVICE_URL ;
+const USER_SERVICE_URL = process.env.USER_SERVICE_URL ;
+const WORKER_SERVICE_URL = process.env.WORKER_SERVICE_URL ;
 
 // Proxy options
 const proxyOptions = {
