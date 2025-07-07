@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { queryClient } from '@/lib/queryClient';
+import { queryClient, apiRequest } from '@/lib/queryClient';
 
 const initialVerifiedPhone = typeof window !== 'undefined' ? localStorage.getItem('verifiedPhone') : null;
 
@@ -77,20 +77,18 @@ const useAuthStore = create(
                 formData.append(key, value);
               }
             });
-            response = await fetch(endpoint, {
+            // For FormData, use fetch with BASE_URL
+            const BASE_URL = import.meta.env.VITE_GATEWAY_URL;
+            response = await fetch(`${BASE_URL.replace(/\/$/, '')}${endpoint}`, {
               method: 'POST',
               body: formData,
             });
           } else {
-            response = await fetch(endpoint, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(userData),
-            });
+            response = await apiRequest('POST', endpoint, userData);
           }
           data = await response.json();
           console.log('authStore register: backend response =', data);
-          if (!response.ok) throw new Error(data.message || 'Registration failed');
+          if (!response.ok && !data.ok) throw new Error(data.message || 'Registration failed');
           
           // Clear all queries and set login timestamp
           queryClient.clear();
@@ -132,12 +130,7 @@ const useAuthStore = create(
 
         try {
           console.log('Sending credentials:', credentials);
-          const response = await fetch(endpoint, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(credentials),
-            credentials: 'include',
-          });
+          const response = await apiRequest('POST', endpoint, credentials);
           const data = await response.json();
           console.log('Login response data:', data);
           if (!response.ok) throw new Error(data.message || 'Login failed');
@@ -193,16 +186,9 @@ const useAuthStore = create(
           if (currentRole === 'worker') endpoint = '/api/v1/workers/logout';
           else if (currentRole === 'admin') endpoint = '/api/v1/admin/logout';
           else endpoint = '/api/v1/users/logout';
-          
-          // Try to call logout endpoint (don't fail if it doesn't work)
           try {
-            await fetch(endpoint, {
-              method: 'POST',
-              credentials: 'include',
-            });
-          } catch (error) {
-            console.warn('Server logout failed, but continuing with client logout:', error);
-          }
+            await apiRequest('POST', endpoint);
+          } catch { /* ignore */ }
           
           // Clear all state
           set({ 
@@ -354,19 +340,11 @@ const useAuthStore = create(
       // Check role by phone (auto-detect client/worker)
       checkRoleByPhone: async (mobile) => {
         // Try user-service first
-        let response = await fetch('/api/v1/users/check-phone', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ mobile })
-        });
+        let response = await apiRequest('POST', '/api/v1/users/check-phone', { mobile });
         let data = await response.json();
         if (data.exists) return 'client';
         // Try worker-service
-        response = await fetch('/api/v1/workers/check-phone', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ mobile })
-        });
+        response = await apiRequest('POST', '/api/v1/workers/check-phone', { mobile });
         data = await response.json();
         if (data.exists) return 'worker';
         return null;
@@ -376,12 +354,7 @@ const useAuthStore = create(
       addReview: async (review) => {
         set({ isLoading: true, error: null });
         try {
-          const res = await fetch('/api/v1/reviews', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(review),
-            credentials: 'include',
-          });
+          const res = await apiRequest('POST', '/api/v1/reviews', review);
           const data = await res.json();
           if (!res.ok) throw new Error(data.message || 'Failed to add review');
           set({ isLoading: false });
@@ -396,14 +369,7 @@ const useAuthStore = create(
       fetchReviews: async () => {
         set({ isLoading: true, error: null });
         try {
-          const response = await fetch('/api/v1/admin/reviews', {
-            method: 'GET',
-            credentials: 'include',
-            headers: {
-              'Cache-Control': 'no-cache',
-              'Pragma': 'no-cache'
-            }
-          });
+          const response = await apiRequest('GET', '/api/v1/admin/reviews');
           const data = await response.json();
           if (!response.ok) throw new Error(data.message || 'Failed to fetch reviews');
           set({ isLoading: false });
@@ -418,14 +384,7 @@ const useAuthStore = create(
       getAllReviews: async () => {
         set({ isLoading: true, error: null });
         try {
-          const response = await fetch('/api/v1/admin/all-reviews', {
-            method: 'GET',
-            credentials: 'include',
-            headers: {
-              'Cache-Control': 'no-cache',
-              'Pragma': 'no-cache'
-            }
-          });
+          const response = await apiRequest('GET', '/api/v1/admin/all-reviews');
           const data = await response.json();
           if (!response.ok) throw new Error(data.message || 'Failed to fetch all reviews');
           set({ isLoading: false });
@@ -440,14 +399,7 @@ const useAuthStore = create(
       getAllUsersForAdmin: async () => {
         set({ isLoading: true, error: null });
         try {
-          const response = await fetch('/api/v1/admin/all-users', {
-            method: 'GET',
-            credentials: 'include',
-            headers: {
-              'Cache-Control': 'no-cache',
-              'Pragma': 'no-cache'
-            }
-          });
+          const response = await apiRequest('GET', '/api/v1/admin/all-users');
           const data = await response.json();
           if (!response.ok) throw new Error(data.message || 'Failed to fetch users');
           set({ isLoading: false });
@@ -462,14 +414,7 @@ const useAuthStore = create(
       getAllAdmins: async () => {
         set({ isLoading: true, error: null });
         try {
-          const response = await fetch('/api/v1/admin/users', {
-            method: 'GET',
-            credentials: 'include',
-            headers: {
-              'Cache-Control': 'no-cache',
-              'Pragma': 'no-cache'
-            }
-          });
+          const response = await apiRequest('GET', '/api/v1/admin/users');
           const data = await response.json();
           if (!response.ok) throw new Error(data.message || 'Failed to fetch admins');
           set({ isLoading: false });
@@ -484,14 +429,7 @@ const useAuthStore = create(
       createClient: async (clientData) => {
         set({ isLoading: true, error: null });
         try {
-          const response = await fetch('/api/v1/admin/create-client', {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(clientData)
-          });
+          const response = await apiRequest('POST', '/api/v1/admin/create-client', clientData);
           const data = await response.json();
           if (!response.ok) throw new Error(data.message || 'Failed to create client');
           set({ isLoading: false });
@@ -506,14 +444,7 @@ const useAuthStore = create(
       createWorker: async (workerData) => {
         set({ isLoading: true, error: null });
         try {
-          const response = await fetch('/api/v1/admin/create-worker', {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(workerData)
-          });
+          const response = await apiRequest('POST', '/api/v1/admin/create-worker', workerData);
           const data = await response.json();
           if (!response.ok) throw new Error(data.message || 'Failed to create worker');
           set({ isLoading: false });
@@ -527,10 +458,7 @@ const useAuthStore = create(
       deleteReview: async (reviewId) => {
         set({ isLoading: true, error: null });
         try {
-          const response = await fetch(`/api/v1/admin/admin/reviews/${reviewId}`, {
-            method: 'DELETE',
-            credentials: 'include',
-          });
+          const response = await apiRequest('DELETE', `/api/v1/admin/admin/reviews/${reviewId}`);
           const data = await response.json();
           if (!response.ok) throw new Error(data.message || 'Failed to delete review');
           set({ isLoading: false });
