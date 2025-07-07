@@ -16,7 +16,6 @@ export default defineConfig(({ mode }) => {
           secure: false,
         },
       },
-      allowedHosts: ['printed-coverage-mn-refine.trycloudflare.com'],
     },
     resolve: {
       alias: {
