@@ -138,7 +138,7 @@ console.log('Chat routes registered successfully');
 
 // Connect to MongoDB and start server
 const PORT = process.env.ADMIN_SERVICE_PORT || 3003;
-const MONGO_URI = process.env.ADMIN_SERVICE_DB_URI || 'mongodb://localhost:27017/labourhunt-admins';
+const MONGO_URI = process.env.ADMIN_SERVICE_DB_URI ;
 
 mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
