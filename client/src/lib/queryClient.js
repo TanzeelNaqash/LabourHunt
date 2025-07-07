@@ -1,22 +1,20 @@
 import { QueryClient } from "@tanstack/react-query";
 
 const API_VERSION = "v1";
-const BASE_URL = (import.meta.env.VITE_GATEWAY_URL || "").replace(/\/$/, '');
 
-
-
+// Helper to construct versioned API URLs
 function getVersionedUrl(path) {
   // Skip versioning for auth routes and already versioned paths
-  if (path.startsWith('/api/auth') || path.includes(`/api/${API_VERSION}`)) {
-    return `${BASE_URL}${path}`;
+  if (path.startsWith('/api/auth') || path.includes('/api/v')) {
+    return path;
   }
 
   // Add version to API paths
   if (path.startsWith('/api/')) {
-    return `${BASE_URL}${path.replace('/api/', `/api/${API_VERSION}/`)}`;
+    return path.replace('/api/', `/api/${API_VERSION}/`);
   }
 
-  return `${BASE_URL}${path}`;
+  return path;
 }
 
 async function throwIfResNotOk(res) {
@@ -64,7 +62,7 @@ export const queryClient = new QueryClient({
       queryFn: getQueryFn({ on401: "throw" }),
       refetchInterval: false,
       refetchOnWindowFocus: false,
-      staleTime: 5 * 60 * 1000, // 5 minutes
+      staleTime: 5 * 60 * 1000, // 5 minutes instead of Infinity
       retry: false,
     },
     mutations: {
