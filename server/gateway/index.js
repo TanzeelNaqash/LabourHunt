@@ -6,6 +6,7 @@ import morgan from 'morgan';
 import rateLimit from 'express-rate-limit';
 import winston from 'winston';
 import dotenv from 'dotenv';
+import './workers/healthCheckWorker.js';
 
 dotenv.config();
 
