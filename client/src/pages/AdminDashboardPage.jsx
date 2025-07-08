@@ -1521,7 +1521,7 @@ export default function AdminDashboardPage() {
                                       </div>
                                 </TableCell>
                                     <TableCell>{worker.mobile}</TableCell>
-                                    <TableCell>{worker.category || 'N/A'}</TableCell>
+                                    <TableCell>{getDisplayCategory(worker) || 'N/A'}</TableCell>
                                 <TableCell>
                                       <span className={`inline-block px-2 py-1 rounded text-xs font-medium ${
                                         worker.status === 'verified' ? 'bg-green-100 text-green-700' : 
@@ -3194,7 +3194,7 @@ export default function AdminDashboardPage() {
                   <span><b>Name:</b> {selectedWorker.displayName || selectedWorker.firstName || selectedWorker.username || 'Worker'}</span>
                   <span><b>Mobile:</b> {selectedWorker.mobile || 'N/A'}</span>
                   <span><b>Gender:</b> {selectedWorker.gender || 'N/A'}</span>
-                  <span><b>Category:</b> {selectedWorker.category || 'N/A'}</span>
+                  <span><b>Category:</b> {getDisplayCategory(selectedWorker) || 'N/A'}</span>
                   <span><b>Address:</b> {selectedWorker.address || 'N/A'}</span>
                   <span><b>Country:</b> {getCountryName(selectedWorker.country)}</span>
                   <span><b>State:</b> {getStateName(selectedWorker.country, selectedWorker.state)}</span>

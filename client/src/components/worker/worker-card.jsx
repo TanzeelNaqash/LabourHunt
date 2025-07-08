@@ -38,6 +38,9 @@ export default function WorkerCard({ worker }) {
     );
   };
 
+  // Helper to get display category
+  const getDisplayCategory = (worker) => worker.category === 'other' && worker.otherCategory ? worker.otherCategory : worker.category;
+
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-shadow">
       <CardContent className="p-6">
@@ -55,7 +58,7 @@ export default function WorkerCard({ worker }) {
           </div>
           <div className="ml-4">
             <h3 className="font-semibold text-lg">{worker.username || (worker.firstName + ' ' + worker.lastName)}</h3>
-            <p className="text-neutral-600 text-sm">{worker.category}</p>
+            <p className="text-neutral-600 text-sm">{getDisplayCategory(worker)}</p>
           </div>
         </div>
         <div className="mb-4">
@@ -73,7 +76,7 @@ export default function WorkerCard({ worker }) {
           )}
         </div>
         <p className="text-neutral-700 mb-4 text-sm line-clamp-2">
-          {worker.bio || `Professional ${worker.category} with experience in various projects.`}
+          {worker.bio || `Professional ${getDisplayCategory(worker)} with experience in various projects.`}
         </p>
         {worker.skills && worker.skills.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-4">

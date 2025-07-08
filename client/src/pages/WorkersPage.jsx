@@ -19,7 +19,6 @@ const WorkersPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("all-categories");
   const [selectedLocation, setSelectedLocation] = useState("all-locations");
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  const user = useAuthStore((state) => state.user);
   const worker = useAuthStore((state) => state.worker);
   const [, setLocation] = useLocation();
   
@@ -42,8 +41,8 @@ const WorkersPage = () => {
       worker.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       worker.skills?.some(skill => skill.toLowerCase().includes(searchQuery.toLowerCase()));
     
-    const matchesCategory = selectedCategory === "all-categories" || selectedCategory === "" || 
-      worker.category === selectedCategory;
+    const matchesCategory = selectedCategory === "all-categories" || selectedCategory === "" ||
+      getDisplayCategory(worker) === selectedCategory;
     
     const matchesLocation = selectedLocation === "all-locations" || selectedLocation === "" || 
       worker.area === selectedLocation;
@@ -56,9 +55,12 @@ const WorkersPage = () => {
     );
   });
 
+  // Helper to get display category
+  const getDisplayCategory = (worker) => worker.category === 'other' && worker.otherCategory ? worker.otherCategory : worker.category;
+
   // Extract unique categories and locations for filters
   const categories = workers 
-    ? Array.from(new Set(workers.filter(w => w.category).map(w => w.category)))
+    ? Array.from(new Set(workers.filter(w => getDisplayCategory(w)).map(w => getDisplayCategory(w))))
     : [];
   
   const locations = workers 
@@ -157,7 +159,7 @@ const WorkersPage = () => {
                       )}
                       {selectedCategory && (
                         <Badge variant="secondary" className="flex items-center gap-1">
-                          Category: {selectedCategory}
+                          <span className="text-sm text-gray-600">Category: {selectedCategory}</span>
                           <Button 
                             variant="ghost" 
                             className="h-4 w-4 p-0 hover:bg-transparent" 

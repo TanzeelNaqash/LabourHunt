@@ -52,6 +52,9 @@ function openWhatsApp(mobile) {
   }, 500);
 }
 
+// Helper to get display category
+const getDisplayCategory = (worker) => worker.category === 'other' && worker.otherCategory ? worker.otherCategory : worker.category;
+
 export default function WorkerProfilePage() {
   const params = useParams();
   const id = params.id;
@@ -138,13 +141,13 @@ export default function WorkerProfilePage() {
   return (
     <>
       <Helmet>
-        <title>{`${displayName} - Skilled ${worker.category || 'Worker'} | LabourHunt`}</title>
+        <title>{`${displayName} - Skilled ${getDisplayCategory(worker) || 'Worker'} | LabourHunt`}</title>
         <meta 
           name="description" 
-          content={`View ${displayName}'s professional profile. ${worker.bio?.substring(0, 100) || `Skilled ${worker.category || 'professional'} available for hire.`}`} 
+          content={`View ${displayName}'s professional profile. ${worker.bio?.substring(0, 100) || `Skilled ${getDisplayCategory(worker) || 'professional'} available for hire.`}`} 
         />
         <meta property="og:title" content={`${displayName} - LabourHunt`} />
-        <meta property="og:description" content={`Professional ${worker.category || 'worker'} profile on LabourHunt.`} />
+        <meta property="og:description" content={`Professional ${getDisplayCategory(worker) || 'worker'} profile on LabourHunt.`} />
       </Helmet>
       <div className="flex flex-col min-h-screen">
         <Header />
@@ -167,7 +170,7 @@ export default function WorkerProfilePage() {
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
                       <div>
                         <h1 className="text-3xl font-bold">{displayName}</h1>
-                        {worker.category && <p className="text-primary text-lg">{worker.category}</p>}
+                        {getDisplayCategory(worker) && <p className="text-primary text-lg">{getDisplayCategory(worker)}</p>}
                       </div>
                       <div className="flex space-x-2 mt-2 md:mt-0">
                         {worker.mobile && (
@@ -237,7 +240,7 @@ export default function WorkerProfilePage() {
                         <div className="mb-6">
                           <span className="text-neutral-700">
                             {/* Enhanced About dummy description */}
-                            {firstName} is a highly skilled and dedicated {worker.category ? worker.category.toLowerCase() : 'professional'} with a proven track record of delivering outstanding results. With a strong commitment to quality and client satisfaction, {firstName} approaches every project with attention to detail, reliability, and a passion for excellence. Whether working independently or as part of a team, {firstName} ensures that every task is completed efficiently and to the highest standards. Clients appreciate {firstName}'s professionalism, clear communication, and ability to adapt to a variety of needs and challenges.
+                            {firstName} is a highly skilled and dedicated {getDisplayCategory(worker) ? getDisplayCategory(worker).toLowerCase() : 'professional'} with a proven track record of delivering outstanding results. With a strong commitment to quality and client satisfaction, {firstName} approaches every project with attention to detail, reliability, and a passion for excellence. Whether working independently or as part of a team, {firstName} ensures that every task is completed efficiently and to the highest standards. Clients appreciate {firstName}'s professionalism, clear communication, and ability to adapt to a variety of needs and challenges.
                           </span>
                         </div>
                       </CardContent>
@@ -248,13 +251,13 @@ export default function WorkerProfilePage() {
                     <Card>
                       <CardContent className="p-6">
                         <h2 className="text-xl font-semibold mb-4">Services Offered</h2>
-                        {worker.category ? (
+                        {getDisplayCategory(worker) ? (
                           <div className="space-y-6">
                             <div className="border-b pb-4 last:border-0 last:pb-0">
-                              <h3 className="font-medium mb-2">{worker.category}</h3>
+                              <h3 className="font-medium mb-2">{getDisplayCategory(worker)}</h3>
                               <p className="text-neutral-700 mb-2">
                                 {/* Dummy description */}
-                                Highly skilled and experienced {worker.category?.toLowerCase() || 'professional'} offering top-notch services tailored to your needs. Reliable, efficient, and customer-focused.
+                                Highly skilled and experienced {getDisplayCategory(worker)?.toLowerCase() || 'professional'} offering top-notch services tailored to your needs. Reliable, efficient, and customer-focused.
                               </p>
                               <div className="flex items-center text-primary font-medium">
                                 {/* Dummy pricing */}
