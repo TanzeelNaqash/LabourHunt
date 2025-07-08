@@ -14,6 +14,9 @@ import useAuthStore from '@/store/authStore';
 import { useLocation } from 'wouter';
 import ChatboxMobile from '@/components/layout/ChatboxMobile';
 
+// Helper to get display category
+const getDisplayCategory = (worker) => worker.category === 'other' && worker.otherCategory ? worker.otherCategory : worker.category;
+
 const WorkersPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all-categories");
@@ -54,9 +57,6 @@ const WorkersPage = () => {
       (worker.status === 'approved' || worker.isVerified)
     );
   });
-
-  // Helper to get display category
-  const getDisplayCategory = (worker) => worker.category === 'other' && worker.otherCategory ? worker.otherCategory : worker.category;
 
   // Extract unique categories and locations for filters
   const categories = workers 
