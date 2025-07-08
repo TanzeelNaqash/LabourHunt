@@ -57,6 +57,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle
 } from "@/components/ui/alert-dialog";
+import { getDisplayCategory } from '@/lib/utils';
 
 export default function AdminDashboardPage() {
   const [, setLocation] = useLocation();

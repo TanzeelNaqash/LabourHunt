@@ -23,3 +23,7 @@ export const handleServerError = (error, navigate) => {
 export const isServerError = (error) => {
   return error?.response?.status === 500 || error?.status === 500;
 };
+
+export function getDisplayCategory(worker) {
+  return worker.category === 'other' && worker.otherCategory ? worker.otherCategory : worker.category;
+}
