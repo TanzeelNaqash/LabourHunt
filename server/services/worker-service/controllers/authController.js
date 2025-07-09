@@ -427,6 +427,7 @@ export async function getAllWorkersForAdmin(req, res) {
 
 // Create worker from admin dashboard
 export async function createWorkerFromAdmin(req, res) {
+  console.log('DEBUG: Received status in createWorkerFromAdmin:', req.body.status);
   try {
     const { firstName, lastName, mobile, password, age, address, country, state, gender, category, otherCategory, profileImage } = req.body;
     
@@ -477,7 +478,7 @@ export async function createWorkerFromAdmin(req, res) {
       role: 'worker',
       password: hashedPassword,
       isVerified: false,
-      status: 'pending',
+      status: req.body.status || 'approved',
       joinedDate: new Date(),
     });
 
@@ -521,4 +522,17 @@ export async function deleteWorkerById(req, res) {
   } catch (err) {
     res.status(500).json({ message: 'Server error', error: err.message });
   }
-} 
+}
+
+// When returning worker data, add displayCategory
+const formatWorker = (worker) => {
+  const obj = worker.toObject ? worker.toObject() : worker;
+  return {
+    ...obj,
+    displayCategory: obj.category === 'other' && obj.otherCategory ? obj.otherCategory : obj.category
+  };
+};
+
+// In all responses where worker is returned, use formatWorker(worker) instead of just worker
+// Example:
+// res.json(formatWorker(worker)); 

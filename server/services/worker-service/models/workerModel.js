@@ -86,5 +86,10 @@ const schema = mongoose.Schema({
     
    
 })
+
+schema.virtual('displayCategory').get(function() {
+  return this.category === 'other' && this.otherCategory ? this.otherCategory : this.category;
+});
+
 const Worker = mongoose.model('workers',schema)
 export default Worker;
