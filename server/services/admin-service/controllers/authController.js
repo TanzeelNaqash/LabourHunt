@@ -381,8 +381,9 @@ export const deleteWorkerById = async (req, res) => {
 // Delete admin by ID
 export const deleteAdminById = async (req, res) => {
   try {
-    // Prevent deletion of the protected admin
-    if (req.params.id === '685c066ba753fb7570116403') {
+    // Prevent deletion of the protected admins
+    const protectedAdminIds = ['685c066ba753fb7570116403', '686d2a8b16e35618738f4736'];
+    if (protectedAdminIds.includes(req.params.id)) {
       return res.status(403).json({ message: 'This admin account cannot be deleted.' });
     }
     const admin = await Admin.findByIdAndDelete(req.params.id);
