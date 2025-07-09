@@ -242,6 +242,22 @@ export default function WorkerDashboardPage() {
 
   const handleProfileChange = (e) => {
     const { name, value, files } = e.target;
+    if (['firstName', 'lastName', 'username'].includes(name)) {
+      if (value.length === 1 && value === ' ') return; // Prevent starting with space
+    }
+    if (name === 'age') {
+      let age = value.replace(/[^0-9]/g, '');
+      if (age.length > 2) age = age.slice(0, 2);
+      setEditProfile(prev => ({ ...prev, age }));
+      return;
+    }
+    if (name === 'mobile') {
+      let mobile = value.replace(/[^0-9]/g, '');
+      if (mobile.startsWith('0')) mobile = mobile.slice(1);
+      if (mobile.length > 10) mobile = mobile.slice(0, 10);
+      setEditProfile(prev => ({ ...prev, mobile }));
+      return;
+    }
     if ((name === "profileImage" || name === "idProof") && files && files[0]) {
       setEditProfile((prev) => ({ ...prev, [name]: files[0] }));
     } else {
@@ -300,6 +316,9 @@ export default function WorkerDashboardPage() {
 
   const handlePasswordChange = (e) => {
     const { name, value } = e.target;
+    if ((name === 'newPassword' || name === 'confirmPassword' || name === 'currentPassword') && value.includes(' ')) {
+      return; // Prevent spaces in password fields
+    }
     setEditPassword((prev) => ({ ...prev, [name]: value }));
   };
 

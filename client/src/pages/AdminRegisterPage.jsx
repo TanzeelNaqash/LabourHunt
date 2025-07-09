@@ -34,10 +34,26 @@ const AdminRegisterPage = () => {
   const [fileError, setFileError] = useState('');
   const { toast } = useToast();
 
-  const passwordRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>\/?]).{8,}$/;
+  const passwordRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
+    if (['firstName', 'lastName', 'username'].includes(name)) {
+      if (value.length === 1 && value === ' ') return; // Prevent starting with space
+    }
+    if (name === 'age') {
+      let age = value.replace(/[^0-9]/g, '');
+      if (age.length > 2) age = age.slice(0, 2);
+      setFormData(prev => ({ ...prev, age }));
+      return;
+    }
+    if (name === 'mobile') {
+      let mobile = value.replace(/[^0-9]/g, '');
+      if (mobile.startsWith('0')) mobile = mobile.slice(1);
+      if (mobile.length > 10) mobile = mobile.slice(0, 10);
+      setFormData(prev => ({ ...prev, mobile }));
+      return;
+    }
     if (type === 'file') {
       setFormData(prev => ({ ...prev, [name]: files[0] }));
       if (name === 'profileImage' && files[0]) {
@@ -45,9 +61,10 @@ const AdminRegisterPage = () => {
         reader.onloadend = () => setPreviewImage(reader.result);
         reader.readAsDataURL(files[0]);
       }
-    } else if (name === 'mobile') {
-      setFormData(prev => ({ ...prev, mobile: value.replace(/[^0-9]/g, '') }));
     } else {
+      if (name === 'password' && value.includes(' ')) {
+        return; // Prevent any spaces in password
+      }
       setFormData(prev => ({ ...prev, [name]: value }));
     }
   };
@@ -99,7 +116,15 @@ const AdminRegisterPage = () => {
       toast({ title: "Password must be at least 8 characters, include 1 uppercase letter, 1 number, and 1 special character.", variant: "destructive" });
       return;
     }
-    if (formData.age < 18 || formData.age > 80) {
+    if (!formData.age || formData.age < 18 || formData.age > 80) {
+      toast({ title: "Age must be between 18 and 80.", variant: "destructive" });
+      return;
+    }
+    if (formData.age.length > 3) {
+      toast({ title: "Age must be 2 or 3 digits only.", variant: "destructive" });
+      return;
+    }
+    if (formData.age && (parseInt(formData.age) < 18 || parseInt(formData.age) > 80)) {
       toast({ title: "Age must be between 18 and 80.", variant: "destructive" });
       return;
     }

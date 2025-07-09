@@ -43,6 +43,22 @@ const BaseRegisterForm = ({ role, showIdProof, verifiedPhone, onSubmit, isLoadin
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
+    if ((name === 'password' || name === 'firstName' || name === 'lastName') && value.includes(' ')) {
+      return; // Prevent spaces in password, first name, last name
+    }
+    if (name === 'age') {
+      let age = value.replace(/[^0-9]/g, '');
+      if (age.length > 2) age = age.slice(0, 2);
+      setFormData(prev => ({ ...prev, age }));
+      return;
+    }
+    if (name === 'mobile') {
+      let mobile = value.replace(/[^0-9]/g, '');
+      if (mobile.startsWith('0')) mobile = mobile.slice(1);
+      if (mobile.length > 10) mobile = mobile.slice(0, 10);
+      setFormData(prev => ({ ...prev, mobile }));
+      return;
+    }
     if (type === 'radio') {
       setFormData(prev => ({ ...prev, [name]: value }));
     } else if (type === 'file') {
@@ -120,7 +136,7 @@ const BaseRegisterForm = ({ role, showIdProof, verifiedPhone, onSubmit, isLoadin
       toast({ title: 'ID Proof is required for workers', variant: 'destructive' });
       return;
     }
-    if (formData.age < 18 || formData.age > 80) {
+    if (!formData.age || formData.age < 18 || formData.age > 80) {
       toast({ title: 'Age must be between 18 and 80.', variant: 'destructive' });
       return;
     }

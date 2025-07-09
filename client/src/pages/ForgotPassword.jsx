@@ -19,7 +19,7 @@ function getNationalNumber(phone) {
   return phone.replace(/^\+?\d{1,4}/, '');
 }
 
-const passwordRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>\/?]).{8,}$/;
+const passwordRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
 
 export default function ForgotPassword() {
   const verifiedPhone = useAuthStore((state) => state.verifiedPhone);
@@ -61,6 +61,9 @@ export default function ForgotPassword() {
   }, [verifiedPhone]);
 
   const handleChange = (e) => {
+    if ((e.target.name === 'newPassword' || e.target.name === 'confirmPassword') && e.target.value.includes(' ')) {
+      return; // Prevent spaces in password fields
+    }
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     setError("");
     setSuccess("");

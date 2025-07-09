@@ -24,6 +24,9 @@ const AdminLoginPage = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (error) clearError();
+    if (name === 'password' && value.includes(' ')) {
+      return; // Prevent any spaces in password
+    }
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 

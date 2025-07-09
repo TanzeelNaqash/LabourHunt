@@ -20,6 +20,16 @@ const LoginForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (name === 'password' && value.includes(' ')) {
+      return; // Prevent any spaces in password
+    }
+    if (name === 'phone') {
+      let phone = value.replace(/[^0-9]/g, '');
+      if (phone.startsWith('0')) phone = phone.slice(1);
+      if (phone.length > 10) phone = phone.slice(0, 10);
+      setFormData(prev => ({ ...prev, phone }));
+      return;
+    }
     if (error) clearError();
     setFormData(prev => ({ ...prev, [name]: value }));
   };

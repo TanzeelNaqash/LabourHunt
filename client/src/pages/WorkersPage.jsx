@@ -39,17 +39,22 @@ const WorkersPage = () => {
 
   // Filter workers based on search, category, and location
   const filteredWorkers = workers?.filter(worker => {
-    const matchesSearch = searchQuery === "" ||
-      worker.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      worker.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      worker.skills?.some(skill => skill.toLowerCase().includes(searchQuery.toLowerCase()));
-    
+    const q = searchQuery.trim().toLowerCase();
+    const n = q.length;
+    const matchesSearch =
+      q === "" ||
+      (n > 0 && (
+        (worker.firstName && worker.firstName.toLowerCase().slice(0, n) === q) ||
+        (worker.lastName && worker.lastName.toLowerCase().slice(0, n) === q)
+      )) ||
+      worker.skills?.some(skill => skill.toLowerCase().includes(q));
+
     const matchesCategory = selectedCategory === "all-categories" || selectedCategory === "" ||
       getDisplayCategory(worker) === selectedCategory;
-    
+
     const matchesLocation = selectedLocation === "all-locations" || selectedLocation === "" || 
       worker.area === selectedLocation;
-    
+
     return (
       matchesSearch &&
       matchesCategory &&

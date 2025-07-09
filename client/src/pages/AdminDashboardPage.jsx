@@ -173,6 +173,7 @@ export default function AdminDashboardPage() {
     category: '',
     otherCategory: '',
     profileImage: null,
+    status: 'approved', // Set status to approved by default
   });
   const [showAddWorkerPassword, setShowAddWorkerPassword] = useState(false);
   const [addWorkerModalOpen, setAddWorkerModalOpen] = useState(false);
@@ -290,6 +291,22 @@ export default function AdminDashboardPage() {
 
   const handleProfileChange = (e) => {
     const { name, value, files } = e.target;
+    if (['firstName', 'lastName', 'username'].includes(name)) {
+      if (value.length === 1 && value === ' ') return; // Prevent starting with space
+    }
+    if (name === 'age') {
+      let age = value.replace(/[^0-9]/g, '');
+      if (age.length > 2) age = age.slice(0, 2);
+      setEditProfile(prev => ({ ...prev, age }));
+      return;
+    }
+    if (name === 'mobile') {
+      let mobile = value.replace(/[^0-9]/g, '');
+      if (mobile.startsWith('0')) mobile = mobile.slice(1);
+      if (mobile.length > 10) mobile = mobile.slice(0, 10);
+      setEditProfile(prev => ({ ...prev, mobile }));
+      return;
+    }
     if (name === "profileImage" && files && files[0]) {
       setEditProfile((prev) => ({ ...prev, profileImage: files[0] }));
     } else {
@@ -319,6 +336,9 @@ export default function AdminDashboardPage() {
 
   const handlePasswordChange = (e) => {
     const { name, value } = e.target;
+    if ((name === 'newPassword' || name === 'confirmPassword' || name === 'currentPassword') && value.includes(' ')) {
+      return; // Prevent spaces in password fields
+    }
     setEditPassword((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -391,6 +411,25 @@ export default function AdminDashboardPage() {
 
   const handleAddAdminChange = (e) => {
     const { name, value, files } = e.target;
+    if (['username'].includes(name)) {
+      if (value.length === 1 && value === ' ') return; // Prevent starting with space
+    }
+    if (name === 'mobile') {
+      let mobile = value.replace(/[^0-9]/g, '');
+      if (mobile.startsWith('0')) mobile = mobile.slice(1);
+      if (mobile.length > 10) mobile = mobile.slice(0, 10);
+      setAddAdmin(prev => ({ ...prev, mobile }));
+      return;
+    }
+    if (name === 'password' && value.includes(' ')) {
+      return; // Prevent spaces in password
+    }
+    if (name === 'age') {
+      let age = value.replace(/[^0-9]/g, '');
+      if (age.length > 2) age = age.slice(0, 2);
+      setAddAdmin(prev => ({ ...prev, age }));
+      return;
+    }
     if (name === 'profileImage' && files && files[0]) {
       setAddAdmin((prev) => ({ ...prev, profileImage: files[0] }));
     } else {
@@ -522,13 +561,56 @@ export default function AdminDashboardPage() {
     }
   };
 
-  // Handle add client form changes
+  // Add User (Client) form change handler
   const handleAddClientChange = (e) => {
     const { name, value } = e.target;
+    if (['firstName', 'lastName'].includes(name)) {
+      if (value.length === 1 && value === ' ') return; // Prevent starting with space
+    }
+    if (name === 'mobile') {
+      let mobile = value.replace(/[^0-9]/g, '');
+      if (mobile.startsWith('0')) mobile = mobile.slice(1);
+      if (mobile.length > 10) mobile = mobile.slice(0, 10);
+      setAddClient(prev => ({ ...prev, mobile }));
+      return;
+    }
+    if (name === 'password' && value.includes(' ')) {
+      return; // Prevent spaces in password
+    }
+    if (name === 'age') {
+      let age = value.replace(/[^0-9]/g, '');
+      if (age.length > 2) age = age.slice(0, 2);
+      setAddClient(prev => ({ ...prev, age }));
+      return;
+    }
     setAddClient(prev => ({ ...prev, [name]: value }));
   };
 
-  // Handle add client country change
+  // Add Worker form change handler
+  const handleAddWorkerChange = (e) => {
+    const { name, value } = e.target;
+    if (['firstName', 'lastName', 'username'].includes(name)) {
+      if (value.length === 1 && value === ' ') return; // Prevent starting with space
+    }
+    if (name === 'mobile') {
+      let mobile = value.replace(/[^0-9]/g, '');
+      if (mobile.startsWith('0')) mobile = mobile.slice(1);
+      if (mobile.length > 10) mobile = mobile.slice(0, 10);
+      setAddWorker(prev => ({ ...prev, mobile }));
+      return;
+    }
+    if (name === 'password' && value.includes(' ')) {
+      return; // Prevent spaces in password
+    }
+    if (name === 'age') {
+      let age = value.replace(/[^0-9]/g, '');
+      if (age.length > 2) age = age.slice(0, 2);
+      setAddWorker(prev => ({ ...prev, age }));
+      return;
+    }
+    setAddWorker(prev => ({ ...prev, [name]: value }));
+  };
+
   const handleAddClientCountryChange = (selected) => {
     setAddClient(prev => ({ ...prev, country: selected ? selected.value : '', state: '' }));
     if (selected) {
@@ -538,12 +620,21 @@ export default function AdminDashboardPage() {
       setStateOptions([]);
     }
   };
-
-  // Handle add client state change
   const handleAddClientStateChange = (selected) => {
     setAddClient(prev => ({ ...prev, state: selected ? selected.value : '' }));
   };
-
+  const handleAddWorkerCountryChange = (selected) => {
+    setAddWorker(prev => ({ ...prev, country: selected ? selected.value : '', state: '' }));
+    if (selected) {
+      const states = State.getStatesOfCountry(selected.value);
+      setAddWorkerStateOptions(states.map(s => ({ value: s.isoCode, label: s.name })));
+    } else {
+      setAddWorkerStateOptions([]);
+    }
+  };
+  const handleAddWorkerStateChange = (selected) => {
+    setAddWorker(prev => ({ ...prev, state: selected ? selected.value : '' }));
+  };
   // Handle add client submit
   const handleAddClientSubmit = async (e) => {
     e.preventDefault();
@@ -594,28 +685,6 @@ export default function AdminDashboardPage() {
     }
   };
 
-  // Handle add worker form changes
-  const handleAddWorkerChange = (e) => {
-    const { name, value } = e.target;
-    setAddWorker(prev => ({ ...prev, [name]: value }));
-  };
-
-  // Handle add worker country change
-  const handleAddWorkerCountryChange = (selected) => {
-    setAddWorker(prev => ({ ...prev, country: selected ? selected.value : '', state: '' }));
-    if (selected) {
-      const states = State.getStatesOfCountry(selected.value);
-      setAddWorkerStateOptions(states.map(s => ({ value: s.isoCode, label: s.name })));
-    } else {
-      setAddWorkerStateOptions([]);
-    }
-  };
-
-  // Handle add worker state change
-  const handleAddWorkerStateChange = (selected) => {
-    setAddWorker(prev => ({ ...prev, state: selected ? selected.value : '' }));
-  };
-
   // Handle add worker submit
   const handleAddWorkerSubmit = async (e) => {
     e.preventDefault();
@@ -652,6 +721,7 @@ export default function AdminDashboardPage() {
         category: '',
         otherCategory: '',
         profileImage: null,
+        status: 'approved', // Set status to approved by default
       });
       setAddWorkerPreviewImage(null);
       setAddWorkerModalOpen(false);
@@ -832,20 +902,41 @@ export default function AdminDashboardPage() {
   // Get chart data from real user data
   const chartData = processChartData(usersData, chartTimePeriod);
 
-  // Filter clients and workers based on search terms
+  // Helper functions to get full country/state names
+  const getCountryName = (code) => {
+    if (!code) return 'N/A';
+    const country = Country.getCountryByCode(code);
+    return country ? country.name : code;
+  };
+  const getStateName = (countryCode, stateCode) => {
+    if (!countryCode || !stateCode) return 'N/A';
+    const state = State.getStateByCodeAndCountry(stateCode, countryCode);
+    return state ? state.name : stateCode;
+  };
+  // Add a custom filterOption for react-select to match the input with the first N characters
+  const filterFirstN = (option, inputValue) => {
+    if (!inputValue) return true;
+    return option.label.toLowerCase().startsWith(inputValue.toLowerCase());
+  };
+
+  // Filter clients and workers based on search terms (move here)
   const filteredClients = usersData?.filter(user => 
     user.type === 'client' && 
-    (user.displayName?.toLowerCase().includes(clientSearchTerm.toLowerCase()) ||
-     user.email?.toLowerCase().includes(clientSearchTerm.toLowerCase()) ||
-     user.mobile?.includes(clientSearchTerm))
+    (
+      (user.displayName?.toLowerCase().startsWith(clientSearchTerm.toLowerCase())) ||
+      (user.firstName?.toLowerCase().startsWith(clientSearchTerm.toLowerCase())) ||
+      (user.mobile?.includes(clientSearchTerm))
+    )
   ) || [];
 
   const filteredWorkers = usersData?.filter(user => 
     user.type === 'worker' && 
-    (user.displayName?.toLowerCase().includes(workerSearchTerm.toLowerCase()) ||
-     user.username?.toLowerCase().includes(workerSearchTerm.toLowerCase()) ||
-     user.mobile?.includes(workerSearchTerm) ||
-     user.category?.toLowerCase().includes(workerSearchTerm.toLowerCase()))
+    (
+      (user.displayName?.toLowerCase().startsWith(workerSearchTerm.toLowerCase())) ||
+      (user.username?.toLowerCase().startsWith(workerSearchTerm.toLowerCase())) ||
+      (user.mobile?.includes(workerSearchTerm)) 
+      
+    )
   ) || [];
 
   // Debug logging
@@ -901,18 +992,6 @@ export default function AdminDashboardPage() {
       setEditUserStateOptions([]);
     }
   }, [editUserForm && editUserForm.country]);
-
-  // Helper functions to get full country/state names
-  const getCountryName = (code) => {
-    if (!code) return 'N/A';
-    const country = Country.getCountryByCode(code);
-    return country ? country.name : code;
-  };
-  const getStateName = (countryCode, stateCode) => {
-    if (!countryCode || !stateCode) return 'N/A';
-    const state = State.getStateByCodeAndCountry(stateCode, countryCode);
-    return state ? state.name : stateCode;
-  };
 
   const { getAllAdmins } = useAuthStore();
   const { data: adminsData, isLoading: adminsLoading, refetch: refetchAdmins, error: adminsError } = useQuery({
@@ -1632,11 +1711,11 @@ export default function AdminDashboardPage() {
                           <div className="flex flex-col md:flex-row gap-4">
                             <div className="flex-1">
                               <label className="block text-black font-medium mb-1">Country</label>
-                              <Select options={countryOptions} value={countryOptions.find(opt => opt.value === editProfile.country) || null} onChange={handleCountryChange} placeholder="Select country" classNamePrefix="react-select" isClearable />
+                              <Select options={countryOptions} value={countryOptions.find(opt => opt.value === editProfile.country) || null} onChange={handleCountryChange} placeholder="Select country" classNamePrefix="react-select" isClearable filterOption={filterFirstN} />
                             </div>
                             <div className="flex-1">
                               <label className="block text-black font-medium mb-1">State</label>
-                              <Select options={stateOptions} value={stateOptions.find(opt => opt.value === editProfile.state) || null} onChange={handleStateChange} placeholder="Select state" classNamePrefix="react-select" isClearable isDisabled={!editProfile.country} />
+                              <Select options={stateOptions} value={stateOptions.find(opt => opt.value === editProfile.state) || null} onChange={handleStateChange} placeholder="Select state" classNamePrefix="react-select" isClearable filterOption={filterFirstN} isDisabled={!editProfile.country} />
                             </div>
                           </div>
                           <div>
@@ -1780,9 +1859,6 @@ export default function AdminDashboardPage() {
                                   </Avatar>
                                   <div className="text-center">
                                     <div className="font-semibold text-lg">{admin.username || `${admin.firstName} ${admin.lastName}`}</div>
-                                    <div className="text-sm text-gray-600">{admin.email}</div>
-                                    <div className="text-sm text-gray-500">{admin.mobile}</div>
-                                    <div className="text-xs text-gray-400 mt-1">{getCountryName(admin.country)}</div>
                                   </div>
                                   <div className="flex gap-2 mt-3">
                                     <Button size="sm" variant="outline" onClick={() => { setSelectedAdmin(admin); setViewAdminModalOpen(true); }}>View</Button>
@@ -1843,11 +1919,11 @@ export default function AdminDashboardPage() {
                           <div className="flex flex-col md:flex-row gap-4">
                             <div className="flex-1">
                               <label className="block text-black font-medium mb-1">Country</label>
-                              <Select options={countryOptions} value={countryOptions.find(opt => opt.value === addAdmin.country) || null} onChange={handleAddAdminCountryChange} placeholder="Select country" classNamePrefix="react-select" isClearable />
+                              <Select options={countryOptions} value={countryOptions.find(opt => opt.value === addAdmin.country) || null} onChange={handleAddAdminCountryChange} placeholder="Select country" classNamePrefix="react-select" isClearable filterOption={filterFirstN} />
                             </div>
                             <div className="flex-1">
                               <label className="block text-black font-medium mb-1">State</label>
-                              <Select options={addAdminStateOptions} value={addAdminStateOptions.find(opt => opt.value === addAdmin.state) || null} onChange={handleAddAdminStateChange} placeholder="Select state" classNamePrefix="react-select" isClearable isDisabled={!addAdmin.country} />
+                              <Select options={addAdminStateOptions} value={addAdminStateOptions.find(opt => opt.value === addAdmin.state) || null} onChange={handleAddAdminStateChange} placeholder="Select state" classNamePrefix="react-select" isClearable filterOption={filterFirstN} isDisabled={!addAdmin.country} />
                             </div>
                           </div>
                           <div className="flex-1">
@@ -2757,6 +2833,7 @@ export default function AdminDashboardPage() {
                   placeholder="Select country"
                   classNamePrefix="react-select"
                   isClearable
+                  filterOption={filterFirstN}
                 />
               </div>
               <div>
@@ -2769,6 +2846,7 @@ export default function AdminDashboardPage() {
                   classNamePrefix="react-select"
                   isClearable
                   isDisabled={!addClient.country}
+                  filterOption={filterFirstN}
                 />
               </div>
             </div>
@@ -2910,6 +2988,7 @@ export default function AdminDashboardPage() {
                   placeholder="Select category"
                   classNamePrefix="react-select"
                   isClearable
+                  filterOption={filterFirstN}
                 />
               </div>
             </div>
@@ -2943,6 +3022,7 @@ export default function AdminDashboardPage() {
                   placeholder="Select country"
                   classNamePrefix="react-select"
                   isClearable
+                  filterOption={filterFirstN}
                 />
               </div>
               <div>
@@ -2955,6 +3035,7 @@ export default function AdminDashboardPage() {
                   classNamePrefix="react-select"
                   isClearable
                   isDisabled={!addWorker.country}
+                  filterOption={filterFirstN}
                 />
               </div>
             </div>
@@ -3126,6 +3207,7 @@ export default function AdminDashboardPage() {
                     placeholder="Select country"
                     classNamePrefix="react-select"
                     isClearable
+                    filterOption={filterFirstN}
                   />
                   {/* State Dropdown */}
                   <Select
@@ -3136,6 +3218,7 @@ export default function AdminDashboardPage() {
                     classNamePrefix="react-select"
                     isClearable
                     isDisabled={!editUserForm.country}
+                    filterOption={filterFirstN}
                   />
                   <input className="border rounded p-2" value={editUserForm.status || ''} onChange={e => setEditUserForm(f => ({ ...f, status: e.target.value }))} placeholder="Status" />
                   <button type="submit" className="bg-blue-600 text-white rounded p-2 mt-2">Save Changes</button>
@@ -3268,6 +3351,7 @@ export default function AdminDashboardPage() {
                     placeholder="Select country"
                     classNamePrefix="react-select"
                     isClearable
+                    filterOption={filterFirstN}
                   />
                   {/* State Dropdown */}
                   <Select
@@ -3278,6 +3362,7 @@ export default function AdminDashboardPage() {
                     classNamePrefix="react-select"
                     isClearable
                     isDisabled={!editWorkerForm.country}
+                    filterOption={filterFirstN}
                   />
                   <input className="border rounded p-2" value={editWorkerForm.status || ''} onChange={e => setEditWorkerForm(f => ({ ...f, status: e.target.value }))} placeholder="Status" />
                   <button type="submit" className="bg-blue-600 text-white rounded p-2 mt-2">Save Changes</button>

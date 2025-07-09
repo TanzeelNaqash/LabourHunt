@@ -22,6 +22,9 @@ export default function AdminForgotPassword() {
   const [, setLocation] = useLocation();
 
   const handleChange = (e) => {
+    if ((e.target.name === 'newPassword' || e.target.name === 'confirmPassword') && e.target.value.includes(' ')) {
+      return; // Prevent spaces in password fields
+    }
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
